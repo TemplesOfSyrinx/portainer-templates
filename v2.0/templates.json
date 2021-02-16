@@ -1,0 +1,33 @@
+{
+	"version": "2",
+	"templates": [
+		{
+			"type": 1,
+			"title": "HelloWorld",
+			"description": "Hello World container",
+			"note": "Hello World! (an example of minimal Dockerization)",
+			"categories": [
+				"example"
+			],
+			"platform": "linux",
+			"image": "hello-world",
+			"env": [],
+			"ports": [],
+			"volumes": []
+		},
+		{
+			"type": 1,
+			"title": "True",
+			"description": "tianon true container",
+			"note": "Returns true (0)",
+			"categories": [
+				"example"
+			],
+			"platform": "linux",
+			"image": "tianon/true",
+			"env": [],
+			"ports": [],
+			"volumes": []
+		}
+	]
+}
