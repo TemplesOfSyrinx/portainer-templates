@@ -46,9 +46,9 @@ Once logged in as "rancher" user:
 - To Run Portainer Agent:
 
 ```
-docker run --rm curlimages/curl -L -v https://templesofsyrinx.github.io/portainer-templates/v2.0/stacks/portainer_agent/docker-compose.yml" > docker-compose.yml
+docker run --rm curlimages/curl -L -v https://templesofsyrinx.github.io/portainer-templates/v2.0/stacks/portainer_agent/docker-compose.yml > docker-compose.yml
 
-docker run --rm curlimages/curl -L -v https://templesofsyrinx.github.io/portainer-templates/v2.0/stacks/portainer_agent/deploy.sh" > deploy.sh
+docker run --rm curlimages/curl -L -v https://templesofsyrinx.github.io/portainer-templates/v2.0/stacks/portainer_agent/deploy.sh > deploy.sh
 ```
 then:
 ```
@@ -67,7 +67,7 @@ Once logged in as "root" user:
 ```
 curl -L https://templesofsyrinx.github.io/portainer-templates/v2.0/stacks/portainer_agent/docker-compose-syno.yml -o docker-compose.yml
 
-curl -L https://templesofsyrinx.github.io/portainer-templates/v2.0/stacks/portainer_agent/deploy.sh" -o deploy.sh
+curl -L https://templesofsyrinx.github.io/portainer-templates/v2.0/stacks/portainer_agent/deploy.sh -o deploy.sh
 ```
 then:
 ```
