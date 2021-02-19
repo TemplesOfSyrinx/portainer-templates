@@ -28,6 +28,51 @@
 			"env": [],
 			"ports": [],
 			"volumes": []
+		},
+		{
+			"type": 3,
+			"title": "Portainer Agent",
+			"description": "Manage all the Docker resources using the agent",
+			"note": "This entry is merely an example of a Template type 3 (Compose stack).",
+			"administrator_only": true,
+			"categories": [
+				"portainer"
+			],
+			"platform": "linux",
+			"repository": {
+				"url": "https://templesofsyrinx.github.io/portainer-templates/v2.0",
+				"stackfile": "stacks/portainer_agent/docker-compose.yml"
+			},
+			"env": [
+				{
+					"name": "AGENT_PUBLISHED_PORT",
+					"label": "Published Agent Port",
+					"description": "Port Agent will be accessible on. (Defaults to 9001)",
+					"set": "9001"
+				},
+				{
+					"name": "AGENT_PORT",
+					"label": "Agent Port",
+					"description": "Port Agent will run on within the container. (Defaults to 9001)",
+					"set": "9001"
+				},
+				{
+					"name": "AGENT_HOST",
+					"label": "Agent Host",
+					"description": "Host Agent will listen on within the container. (Defaults to 0.0.0.0)",
+					"set": "0.0.0.0"
+				},
+				{
+					"name": "AGENT_SECRET",
+					"label": "Agent Secret",
+					"description": "Agent Secret used by Portainer to connect to Agent from multiple sources."
+				},
+				{
+					"name": "TZ",
+					"label": "Timezone",
+					"description": "Timezone Portainer will run in."
+				}
+			]
 		}
 	]
 }
