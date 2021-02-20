@@ -107,6 +107,7 @@ then
     fi
 
     if [ type docker-compose >/dev/null 2>&1 ]; then
+       # if docker-compose is installed, most likely docker is also
        docker-compose ${ACTION} -d
     else
        echo >&2 "Script expecting docker-compose but it's not installed.  Using docker/compose container instead."
@@ -119,6 +120,7 @@ then
 elif [ "$ACTION" = "down" ]
 then
     if [ type docker-compose >/dev/null 2>&1 ]; then
+       # if docker-compose is installed, most likely docker is also
        docker-compose ${ACTION}
     else
        echo >&2 "Script expecting docker-compose but it's not installed.  Using docker/compose container instead."

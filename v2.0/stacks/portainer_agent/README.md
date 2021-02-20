@@ -1,5 +1,4 @@
 # Run Portainer Agent via docker-compose on Linux
-
 - Install docker and docker-compose:
 ```
 sudo apt update
@@ -11,6 +10,14 @@ sudo apt install docker.io docker-compose
 sudo usermod -aG docker <your_user>
 ```
 
+# TLDR; Simple Copy/Paste
+- Run the following command to deploy the Portainer Agent in your Docker host.
+
+```
+docker run -d -p 9001:9001 --name portainer_agent --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker/volumes:/var/lib/docker/volumes portainer/agent
+```
+
+# Customized using a script
 - Run Portainer Agent:
 
 ```
@@ -35,7 +42,6 @@ bash deploy.sh down
 ```
 
 # Note: Portainer Agent via docker-compose on RancherOS
-
 - Docker is already installed on RancherOS but lacks **docker-compose** with a basic installation, this script will use a utility container instead:
   - docker/compose
 
@@ -55,7 +61,6 @@ then:
 bash deploy.sh up <optional parameters>
 ```
 # Note: Portainer Agent via docker-compose on Synology
-
 - Install the **Docker** Package using **Package Center**
 
 - The Synology **Docker** Package places the volumes in a custom location, **/volume1/@docker/volumes**
