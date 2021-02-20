@@ -3,7 +3,7 @@
 set -eu
 # set -x
 
-: ${1?"Usage: $0 <ACTION> [<AGENT_PUBLISHED_PORT> [<AGENT_PORT> [<AGENT_HOST> [<AGENT_SECRET> [<TZ>]]]]]"}
+: ${1?"Usage: $0 <ACTION> [<PORTAINER_PUBLISHED_PORT> [<PORTAINER_PORT> [<AGENT_PUBLISHED_PORT> [<AGENT_PORT> [<AGENT_HOST> [<AGENT_SECRET> [<TZ>]]]]]]]"}
 ACTION=$1 # up, down
 
 if [ "$ACTION" = "up" ]
@@ -11,13 +11,34 @@ then
     # Construct a string of environemnt variables if we need it
     ENV_VARIABLES=
 
+    # Portainer deployment options:
+    PORT=9000
+
     # Agent deployment options:
     DEFAULT_PORT=9001
 
+    # Portainer Published Port
+    # If PORTAINER_PUBLISHED_PORT is unset (does not exist in the environment) or is empty, expect it as the second parameter and export.
+    # If no second parameter, set to default
+    export PORTAINER_PUBLISHED_PORT=${PORTAINER_PUBLISHED_PORT:-${2:-${PORT}}}
+    # TODO: check that it is within a valid port range
+    ENV_VARIABLES="${ENV_VARIABLES} -e PORTAINER_PUBLISHED_PORT=${PORTAINER_PUBLISHED_PORT}"
+    # Show variable in the environment
+    env | grep PORTAINER_PUBLISHED_PORT
+
+    # Portainer Port
+    # If PORTAINER_PORT is unset (does not exist in the environment) or is empty, expect it as the second parameter and export.
+    # If no third parameter, set to default
+    export PORTAINER_PORT=${PORTAINER_PORT:-${3:-${PORT}}}
+    # TODO: check that it is within a valid port range
+    ENV_VARIABLES="${ENV_VARIABLES} -e PORTAINER_PORT=${PORTAINER_PORT}"
+    # Show variable in the environment
+    env | grep PORTAINER_PORT
+
     # Agent Published Port
     # If AGENT_PUBLISHED_PORT is unset (does not exist in the environment) or is empty, expect it as the second parameter and export.
-    # If no second parameter, set to default
-    export AGENT_PUBLISHED_PORT=${AGENT_PUBLISHED_PORT:-${2:-${DEFAULT_PORT}}}
+    # If no fourth parameter, set to default
+    export AGENT_PUBLISHED_PORT=${AGENT_PUBLISHED_PORT:-${4:-${DEFAULT_PORT}}}
     # TODO: check that it is within a valid port range
     ENV_VARIABLES="${ENV_VARIABLES} -e AGENT_PUBLISHED_PORT=${AGENT_PUBLISHED_PORT}"
     # Show variable in the environment
@@ -25,8 +46,8 @@ then
 
     # Agent Port
     # If AGENT_PORT is unset (does not exist in the environment) or is empty, expect it as the third parameter and export.
-    # If no third parameter, set to default
-    export AGENT_PORT=${AGENT_PORT:-${3:-${DEFAULT_PORT}}}
+    # If no fifth parameter, set to default
+    export AGENT_PORT=${AGENT_PORT:-${5:-${DEFAULT_PORT}}}
     # TODO: check that it is within a valid port range
     ENV_VARIABLES="${ENV_VARIABLES} -e AGENT_PORT=${AGENT_PORT}"
     # Show variable in the environment
@@ -41,14 +62,14 @@ then
        1>&2 echo "AGENT_HOST empty, unsetting"
        unset AGENT_HOST
     fi
-    # Check for AGENT_HOST as fourth parameter
-    if [ -z "${4+set}" ]; then
-       1>&2 echo "AGENT_HOST (parameter 4) is unset"
-    elif [ -z "${4-unset}" ]; then
-       # AGENT_HOST (4) set but empty, don't pass an empty value to container
-       1>&2 echo "AGENT_HOST (parameter 4) empty"
+    # Check for AGENT_HOST as sixth parameter
+    if [ -z "${6+set}" ]; then
+       1>&2 echo "AGENT_HOST (parameter 6) is unset"
+    elif [ -z "${6-unset}" ]; then
+       # AGENT_HOST (6) set but empty, don't pass an empty value to container
+       1>&2 echo "AGENT_HOST (parameter 6) empty"
     else 
-       export AGENT_HOST=${4}
+       export AGENT_HOST=${6}
        # TODO: check that it is within a valid host range
        # Show variable in the environment
        env | grep AGENT_HOST
@@ -66,14 +87,14 @@ then
        1>&2 echo "AGENT_SECRET empty, unsetting"
        unset AGENT_SECRET
     fi
-    # Check for AGENT_SECRET as fifth parameter
-    if [ -z "${5+set}" ]; then
-       1>&2 echo "AGENT_SECRET (parameter 5) is unset"
-    elif [ -z "${5-unset}" ]; then
-       # AGENT_SECRET (5) set but empty, don't pass an empty value to container
-       1>&2 echo "AGENT_SECRET (parameter 5) empty"
+    # Check for AGENT_SECRET as seventh parameter
+    if [ -z "${7+set}" ]; then
+       1>&2 echo "AGENT_SECRET (parameter 7) is unset"
+    elif [ -z "${7-unset}" ]; then
+       # AGENT_SECRET (7) set but empty, don't pass an empty value to container
+       1>&2 echo "AGENT_SECRET (parameter 7) empty"
     else 
-       export AGENT_SECRET=${5}
+       export AGENT_SECRET=${7}
        # Show variable in the environment
        env | grep AGENT_SECRET
     fi
@@ -90,14 +111,14 @@ then
        1>&2 echo "TZ empty, unsetting"
        unset TZ
     fi
-    # Check for TZ as sixth parameter
-    if [ -z "${6+set}" ]; then
-       1>&2 echo "TZ (parameter 6) is unset"
-    elif [ -z "${6-unset}" ]; then
+    # Check for TZ as eigth parameter
+    if [ -z "${8+set}" ]; then
+       1>&2 echo "TZ (parameter 8) is unset"
+    elif [ -z "${8-unset}" ]; then
        # TZ (6) set but empty, don't pass an empty value to container
-       1>&2 echo "TZ (parameter 6) empty"
+       1>&2 echo "TZ (parameter 8) empty"
     else 
-       export TZ=${6}
+       export TZ=${8}
        # TODO: check that it is within a valid timezone
        # Show variable in the environment
        env | grep TZ
