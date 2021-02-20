@@ -32,7 +32,6 @@ services:
       - type: volume
         source: portainer_data
         target: /data
-    command: -H unix:///var/run/docker.sock
     ports:
       - ${PORTAINER_PUBLISHED_PORT}:${PORTAINER_PORT}
     labels:
