@@ -40,8 +40,8 @@
 			],
 			"platform": "linux",
 			"repository": {
-				"url": "https://github.com/TemplesOfSyrinx/portainer-templates/v2.0",
-				"stackfile": "stacks/portainer_agent/docker-compose.yml"
+				"url": "https://github.com/TemplesOfSyrinx/portainer-templates",
+				"stackfile": "v2.0/stacks/portainer_agent/docker-compose.yml"
 			},
 			"env": [
 				{
@@ -84,8 +84,8 @@
 			],
 			"platform": "linux",
 			"repository": {
-				"url": "https://github.com/TemplesOfSyrinx/portainer-templates/v2.0",
-				"stackfile": "stacks/portainer_ce/docker-compose.yml"
+				"url": "https://github.com/TemplesOfSyrinx/portainer-templates",
+				"stackfile": "v2.0/stacks/portainer_ce/docker-compose.yml"
 			},
 			"env": [
 				{
