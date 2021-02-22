@@ -6,53 +6,53 @@ set -eu
 : ${1?"Usage: $0 <ACTION> [<PORTAINER_PUBLISHED_PORT> [<PORTAINER_PORT> [<AGENT_PUBLISHED_PORT> [<AGENT_PORT> [<AGENT_HOST> [<AGENT_SECRET> [<TZ>]]]]]]]"}
 ACTION=$1 # up, down
 
+# Construct a string of environemnt variables if we need it
+ENV_VARIABLES=
+
+# Portainer deployment options:
+PORT=9000
+
+# Agent deployment options:
+DEFAULT_PORT=9001
+
+# Portainer Published Port
+# If PORTAINER_PUBLISHED_PORT is unset (does not exist in the environment) or is empty, expect it as the second parameter and export.
+# If no second parameter, set to default
+export PORTAINER_PUBLISHED_PORT=${PORTAINER_PUBLISHED_PORT:-${2:-${PORT}}}
+# TODO: check that it is within a valid port range
+ENV_VARIABLES="${ENV_VARIABLES} -e PORTAINER_PUBLISHED_PORT=${PORTAINER_PUBLISHED_PORT}"
+# Show variable in the environment
+env | grep PORTAINER_PUBLISHED_PORT
+
+# Portainer Port
+# If PORTAINER_PORT is unset (does not exist in the environment) or is empty, expect it as the second parameter and export.
+# If no third parameter, set to default
+export PORTAINER_PORT=${PORTAINER_PORT:-${3:-${PORT}}}
+# TODO: check that it is within a valid port range
+ENV_VARIABLES="${ENV_VARIABLES} -e PORTAINER_PORT=${PORTAINER_PORT}"
+# Show variable in the environment
+env | grep PORTAINER_PORT
+
+# Agent Published Port
+# If AGENT_PUBLISHED_PORT is unset (does not exist in the environment) or is empty, expect it as the second parameter and export.
+# If no fourth parameter, set to default
+export AGENT_PUBLISHED_PORT=${AGENT_PUBLISHED_PORT:-${4:-${DEFAULT_PORT}}}
+# TODO: check that it is within a valid port range
+ENV_VARIABLES="${ENV_VARIABLES} -e AGENT_PUBLISHED_PORT=${AGENT_PUBLISHED_PORT}"
+# Show variable in the environment
+env | grep AGENT_PUBLISHED_PORT
+
+# Agent Port
+# If AGENT_PORT is unset (does not exist in the environment) or is empty, expect it as the third parameter and export.
+# If no fifth parameter, set to default
+export AGENT_PORT=${AGENT_PORT:-${5:-${DEFAULT_PORT}}}
+# TODO: check that it is within a valid port range
+ENV_VARIABLES="${ENV_VARIABLES} -e AGENT_PORT=${AGENT_PORT}"
+# Show variable in the environment
+env | grep AGENT_PORT
+
 if [ "$ACTION" = "up" ]
 then
-    # Construct a string of environemnt variables if we need it
-    ENV_VARIABLES=
-
-    # Portainer deployment options:
-    PORT=9000
-
-    # Agent deployment options:
-    DEFAULT_PORT=9001
-
-    # Portainer Published Port
-    # If PORTAINER_PUBLISHED_PORT is unset (does not exist in the environment) or is empty, expect it as the second parameter and export.
-    # If no second parameter, set to default
-    export PORTAINER_PUBLISHED_PORT=${PORTAINER_PUBLISHED_PORT:-${2:-${PORT}}}
-    # TODO: check that it is within a valid port range
-    ENV_VARIABLES="${ENV_VARIABLES} -e PORTAINER_PUBLISHED_PORT=${PORTAINER_PUBLISHED_PORT}"
-    # Show variable in the environment
-    env | grep PORTAINER_PUBLISHED_PORT
-
-    # Portainer Port
-    # If PORTAINER_PORT is unset (does not exist in the environment) or is empty, expect it as the second parameter and export.
-    # If no third parameter, set to default
-    export PORTAINER_PORT=${PORTAINER_PORT:-${3:-${PORT}}}
-    # TODO: check that it is within a valid port range
-    ENV_VARIABLES="${ENV_VARIABLES} -e PORTAINER_PORT=${PORTAINER_PORT}"
-    # Show variable in the environment
-    env | grep PORTAINER_PORT
-
-    # Agent Published Port
-    # If AGENT_PUBLISHED_PORT is unset (does not exist in the environment) or is empty, expect it as the second parameter and export.
-    # If no fourth parameter, set to default
-    export AGENT_PUBLISHED_PORT=${AGENT_PUBLISHED_PORT:-${4:-${DEFAULT_PORT}}}
-    # TODO: check that it is within a valid port range
-    ENV_VARIABLES="${ENV_VARIABLES} -e AGENT_PUBLISHED_PORT=${AGENT_PUBLISHED_PORT}"
-    # Show variable in the environment
-    env | grep AGENT_PUBLISHED_PORT
-
-    # Agent Port
-    # If AGENT_PORT is unset (does not exist in the environment) or is empty, expect it as the third parameter and export.
-    # If no fifth parameter, set to default
-    export AGENT_PORT=${AGENT_PORT:-${5:-${DEFAULT_PORT}}}
-    # TODO: check that it is within a valid port range
-    ENV_VARIABLES="${ENV_VARIABLES} -e AGENT_PORT=${AGENT_PORT}"
-    # Show variable in the environment
-    env | grep AGENT_PORT
-
     # Agent Host
     # If AGENT_HOST is unset (does not exist in the environment).
     if [ -z "${AGENT_HOST+set}" ]; then
@@ -129,26 +129,26 @@ then
 
     if [ type docker-compose >/dev/null 2>&1 ]; then
        # if docker-compose is installed, most likely docker is also
-       docker-compose ${ACTION} -d
+       docker-compose -p portainer ${ACTION} -d
     else
        echo >&2 "Script expecting docker-compose but it's not installed.  Using docker/compose container instead."
        type docker >/dev/null 2>&1 || { echo >&2 "Script requires docker but it's not installed.  Aborting."; exit 1; }
        docker run -ti --rm \
        -v $(pwd):$(pwd) -v /var/run/docker.sock:/var/run/docker.sock -w $(pwd) \
        ${ENV_VARIABLES} \
-       docker/compose ${ACTION} -d    
+       docker/compose -p portainer ${ACTION} -d    
     fi
 elif [ "$ACTION" = "down" ]
 then
     if [ type docker-compose >/dev/null 2>&1 ]; then
        # if docker-compose is installed, most likely docker is also
-       docker-compose ${ACTION}
+       docker-compose -p portainer ${ACTION}
     else
        echo >&2 "Script expecting docker-compose but it's not installed.  Using docker/compose container instead."
        type docker >/dev/null 2>&1 || { echo >&2 "Script requires docker but it's not installed.  Aborting."; exit 1; }
        docker run -ti --rm \
        -v $(pwd):$(pwd) -v /var/run/docker.sock:/var/run/docker.sock -w $(pwd) \
-       docker/compose ${ACTION}    
+       docker/compose -p portainer ${ACTION}    
     fi
 else
     1>&2 echo "Invalid action. Must be up or down"
