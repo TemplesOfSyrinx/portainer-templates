@@ -13,7 +13,7 @@ services:
         source: /var/run/docker.sock
         target: /var/run/docker.sock
       - type: bind
-        source: /var/lib/docker/volumes
+        source: /volume1/@docker/volumes
         target: /var/lib/docker/volumes
     ports:
       - ${AGENT_PUBLISHED_PORT}:${AGENT_PORT}/tcp

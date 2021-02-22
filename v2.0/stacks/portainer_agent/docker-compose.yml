@@ -3,7 +3,8 @@ version: '3.2'
 services:
   agent:
     image: portainer/agent
-    environment:
+    container_name: portainer_agent
+    # environment:
       # AGENT_PORT: Port Agent will run on within the container. (Defaults to 9001)
       # AGENT_HOST: Host Agent will listen on within the container. (Defaults to 0.0.0.0)
       # AGENT_SECRET: Agent Secret used by Portainer to connect to Agent from multiple sources.
