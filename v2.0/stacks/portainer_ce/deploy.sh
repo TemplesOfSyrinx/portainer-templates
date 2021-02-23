@@ -127,7 +127,7 @@ then
        ENV_VARIABLES="${ENV_VARIABLES} -e TZ=${TZ}"
     fi
 
-    if [ type docker-compose >/dev/null 2>&1 ]; then
+    if type docker-compose >/dev/null 2>&1; then
        # if docker-compose is installed, most likely docker is also
        docker-compose -p portainer ${ACTION} -d
     else
@@ -140,7 +140,7 @@ then
     fi
 elif [ "$ACTION" = "down" ]
 then
-    if [ type docker-compose >/dev/null 2>&1 ]; then
+    if type docker-compose >/dev/null 2>&1; then
        # if docker-compose is installed, most likely docker is also
        docker-compose -p portainer ${ACTION}
     else
