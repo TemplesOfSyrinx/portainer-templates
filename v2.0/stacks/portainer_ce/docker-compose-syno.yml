@@ -30,7 +30,7 @@ services:
         source: /var/run/docker.sock
         target: /var/run/docker.sock
       - type: volume
-        source: portainer_data
+        source: data
         target: /data
     ports:
       - ${PORTAINER_PUBLISHED_PORT}:${PORTAINER_PORT}
@@ -39,6 +39,6 @@ services:
     command: --host unix:///var/run/docker.sock --tlsskipverify --hide-label io.portainer-ce.hidden=1
 
 volumes:
-  portainer_data:
+  data:
     labels:
       - "io.portainer-ce.hidden=1"
