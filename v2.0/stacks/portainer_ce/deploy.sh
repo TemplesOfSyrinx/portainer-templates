@@ -148,6 +148,7 @@ then
        type docker >/dev/null 2>&1 || { echo >&2 "Script requires docker but it's not installed.  Aborting."; exit 1; }
        docker run -ti --rm \
        -v $(pwd):$(pwd) -v /var/run/docker.sock:/var/run/docker.sock -w $(pwd) \
+       ${ENV_VARIABLES} \
        docker/compose -p portainer ${ACTION}    
     fi
 else
