@@ -69,7 +69,7 @@ then:
 ```
 bash deploy.sh up <optional parameters>
 ```
-# Note: Portainer via docker-compose on Synology
+# Note: Portainer and Agent via docker-compose on Synology
 - Install the **Docker** Package using **Package Center**
 
 - The Synology **Docker** Package places the volumes in a custom location, **/volume1/@docker/volumes**
