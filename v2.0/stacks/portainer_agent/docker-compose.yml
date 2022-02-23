@@ -17,3 +17,5 @@ services:
         target: /var/lib/docker/volumes
     ports:
       - ${AGENT_PUBLISHED_PORT}:${AGENT_PORT}/tcp
+    labels:
+      - "io.portainer-ce.hidden=1"
