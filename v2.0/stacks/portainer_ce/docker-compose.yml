@@ -15,8 +15,13 @@ services:
       - type: bind
         source: /var/lib/docker/volumes
         target: /var/lib/docker/volumes
+      - type: bind
+        source: /
+        target: /host
     ports:
       - ${AGENT_PUBLISHED_PORT}:${AGENT_PORT}/tcp
+    networks:
+      - portainer_agent
     restart: unless-stopped
     labels:
       - "io.portainer-ce.hidden=1"
@@ -35,11 +40,18 @@ services:
         target: /data
     ports:
       - ${PORTAINER_PUBLISHED_PORT}:${PORTAINER_PORT}
+    networks:
+      - portainer_agent
     restart: unless-stopped
     labels:
       - "io.portainer-ce.hidden=1"
     command: --host unix:///var/run/docker.sock --tlsskipverify --hide-label io.portainer-ce.hidden=1
-
+networks:
+  portainer_agent:
+    driver: overlay
+    attachable: true
+    labels:
+      - "io.portainer-ce.hidden=1"
 volumes:
   data:
     labels:
