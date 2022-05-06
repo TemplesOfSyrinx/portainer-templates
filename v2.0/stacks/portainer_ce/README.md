@@ -10,17 +10,17 @@ sudo apt install docker.io docker-compose
 sudo usermod -aG docker <your_user>
 ```
 
-# TLDR; Simple Copy/Paste
+# TLDR; Simple Copy/Paste CLI
 - Run the following commands to deploy Portainer in your Docker host.
 
 ```
 docker volume create portainer_data
 ```
 ```
-docker run -d -p 9001:9001 --name portainer_agent --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker/volumes:/var/lib/docker/volumes --label io.portainer-ce.hidden=1 portainer/agent
+docker run -d --name portainer_agent -p 9001:9001 --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker/volumes:/var/lib/docker/volumes --label io.portainer-ce.hidden=1 portainer/agent
 ```
 ```
-docker run -d -p 9000:9000 --name portainer_ce --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data --label io.portainer-ce.hidden=1 portainer/portainer-ce --host unix:///var/run/docker.sock --tlsskipverify --hide-label io.portainer-ce.hidden=1
+docker run -d --name portainer_ce -p 9000:9000 --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data --label io.portainer-ce.hidden=1 portainer/portainer-ce --host unix:///var/run/docker.sock --tlsskipverify --hide-label io.portainer-ce.hidden=1
 
 ```
 

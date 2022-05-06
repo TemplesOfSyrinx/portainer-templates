@@ -5,9 +5,9 @@ services:
     image: portainer/agent
     container_name: portainer_agent
     # environment:
-      # AGENT_PORT: Port Agent will run on within the container. (Defaults to 9001)
-      # AGENT_HOST: Host Agent will listen on within the container. (Defaults to 0.0.0.0)
-      # AGENT_SECRET: Agent Secret used by Portainer to connect to Agent from multiple sources.
+    #  AGENT_PORT: Port Agent will run on within the container. (Defaults to 9001)
+    #  AGENT_HOST: Host Agent will listen on within the container. (Defaults to 0.0.0.0)
+    #  AGENT_SECRET: Agent Secret used by Portainer to connect to Agent from multiple sources.
     volumes:
       - type: bind
         source: /var/run/docker.sock
@@ -17,5 +17,6 @@ services:
         target: /var/lib/docker/volumes
     ports:
       - ${AGENT_PUBLISHED_PORT}:${AGENT_PORT}/tcp
+    restart: unless-stopped
     labels:
       - "io.portainer-ce.hidden=1"
