@@ -43,9 +43,11 @@ services:
     networks:
       - agent
     restart: unless-stopped
+    depends_on:
+      - agent
     labels:
       - "io.portainer-ce.hidden=1"
-    command: --host unix:///var/run/docker.sock --tlsskipverify --hide-label io.portainer-ce.hidden=1
+    command: --host tcp://portainer_agent:9001 --tlsskipverify --hide-label io.portainer-ce.hidden=1
 networks:
   agent:
     driver: bridge

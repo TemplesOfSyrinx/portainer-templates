@@ -17,11 +17,10 @@ sudo usermod -aG docker <your_user>
 docker volume create portainer_data
 ```
 ```
-docker run -d --name portainer_agent -p 9001:9001 --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker/volumes:/var/lib/docker/volumes --label io.portainer-ce.hidden=1 portainer/agent
+docker run -d --name portainer_agent -p 9001:9001 --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker/volumes:/var/lib/docker/volumes -v /:/host --label io.portainer-ce.hidden=1 portainer/agent
 ```
 ```
-docker run -d --name portainer_ce -p 9000:9000 --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data --label io.portainer-ce.hidden=1 portainer/portainer-ce --host unix:///var/run/docker.sock --tlsskipverify --hide-label io.portainer-ce.hidden=1
-
+docker run -d --name portainer_ce -p 9000:9000 --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data --label io.portainer-ce.hidden=1 portainer/portainer-ce --host tcp://portainer_agent:9001 --tlsskipverify --hide-label io.portainer-ce.hidden=1
 ```
 
 # Customized using a script

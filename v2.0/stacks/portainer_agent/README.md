@@ -14,7 +14,7 @@ sudo usermod -aG docker <your_user>
 - Run the following command to deploy the Portainer Agent in your Docker host.
 
 ```
-docker run -d --name portainer_agent -p 9001:9001 --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker/volumes:/var/lib/docker/volumes --label io.portainer-ce.hidden=1 portainer/agent
+docker run -d --name portainer_agent -p 9001:9001 --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker/volumes:/var/lib/docker/volumes -v /:/host --label io.portainer-ce.hidden=1 portainer/agent
 ```
 
 # Customized using a script
